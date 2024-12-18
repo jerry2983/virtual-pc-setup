@@ -1,0 +1,36 @@
+name: Setup Windows Virtual Environment
+
+on:
+  push:
+    branches:
+      - main  # このワークフローを実行するブランチを指定
+
+jobs:
+  setup-windows:
+    runs-on: windows-latest  # Windowsベースの仮想環境を指定
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # リポジトリのコードをチェックアウト
+
+    - name: Install dependencies
+      run: |
+        echo Installing dependencies...
+        choco install git -y  # Chocolateyを使用してGitをインストール
+        choco install python -y  # Pythonをインストール
+        choco install nodejs -y  # Node.jsをインストール
+
+    - name: Setup environment
+      run: |
+        echo Setting up the environment...
+        mkdir C:\my_environment
+        echo My Virtual Environment > C:\my_environment\info.txt
+
+    - name: Run a script
+      run: |
+        echo Running a custom script...
+        echo Hello, Windows Virtual Machine > C:\my_environment\output.txt
+
+    - name: Verify environment
+      run: |
+        type C:\my_environment\output.txt
